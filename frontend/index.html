@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Аналитическая система «Мониторинг картофельных посадок»</title>
+	<link rel = 'shortcut icon' href = 'design/favicon.png'>
+	<link rel = 'stylesheet' href = 'design/theme.css'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400&display=swap" rel="stylesheet">
+	<script src = 'jquery-3.7.1.min.js'></script>
+	<script src = 'jquery.maskedinput.min.js'></script>
+</head>
+<body onload = "if (getUser()) window.location.href = '/fields'" >
+    <div class = 'modal_window' style = "height: 400px; width: 350px;">
+		<h2>Вход в АС <br> «Мониторинг картофельных посадок»</h2>
+		<form id = 'auth'>
+			<h3>Логин</h3>
+			<input name = 'username' type = 'text' autocomplete = "off">
+			<h3>Пароль</h3>
+			<input name = 'password' type = 'password'>
+			<button class = 'button_base' type = 'submit'>Войти</button>
+		</form>
+		<div class = "error_base"></div>
+	</div>
+	<script src = 'adminLogin.js'></script>
+</body>
+</html>
