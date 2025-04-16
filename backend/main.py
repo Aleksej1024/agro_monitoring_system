@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, UploadFile, File
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
 from typing import List
@@ -265,7 +265,8 @@ def delete_season(
 def create_assessment(
     assessment: schemas.AssessmentCreate, 
     db: Session = Depends(auth.get_db),
-    current_user: schemas.User = Depends(auth.get_current_active_user)
+    current_user: schemas.User = Depends(auth.get_current_active_user),
+    file: UploadFile = File(...)
 ):
     return crud.create_assessment(db=db, assessment=assessment)
 

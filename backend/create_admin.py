@@ -2,7 +2,6 @@ import os; from database import engine; from models import Base; Base.metadata.c
 from sqlalchemy import create_engine;
 from sqlalchemy.orm import sessionmaker;
 from models import User;
-from auth import get_password_hash;
 
 engine = create_engine("postgresql://admin:admin@localhost:5432/database");
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine);
@@ -11,7 +10,8 @@ db = SessionLocal();
 # Check if default user already exists
 user = db.query(User).filter(User.login == "admin").first();
 if not user:
-    hashed_password = get_password_hash("admin123");
+    #password = password123
+    hashed_password = "$2a$12$Xnx.XmxCn8Dfyd43G5HjIuosKM4SuNsirL0SAQe.xq.24aadJYI5i"
     default_user = User(
         fio="Главный Агроном",
         role=1,
