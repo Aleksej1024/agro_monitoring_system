@@ -2,6 +2,7 @@ import os; from database import engine; from models import Base; Base.metadata.c
 from sqlalchemy import create_engine;
 from sqlalchemy.orm import sessionmaker;
 from models import User;
+from passlib.context import CryptContext
 
 engine = create_engine("postgresql://admin:admin@localhost:5432/database");
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine);
@@ -11,7 +12,8 @@ db = SessionLocal();
 user = db.query(User).filter(User.login == "admin").first();
 if not user:
     #password = password123
-    hashed_password = "$2a$12$Xnx.XmxCn8Dfyd43G5HjIuosKM4SuNsirL0SAQe.xq.24aadJYI5i"
+    pwd_context=CryptContext(schemes=["bcrypt"], deprecated="auto")
+    hashed_password = pwd_context.hash("password123")
     default_user = User(
         fio="Главный Агроном",
         role=1,
