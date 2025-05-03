@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, UploadFile, File
+from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Form
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
 from typing import List
@@ -6,8 +6,20 @@ import crud, models, schemas, auth
 from database import SessionLocal, engine
 from sqlalchemy.orm import Session
 from datetime import date
+import cv
+import json
+import os
+from minio import Minio
+from minio.error import S3Error
 
 models.Base.metadata.create_all(bind=engine)
+
+minio_client = Minio(
+    'localhost:9000',
+    access_key="minioadmin",
+    secret_key="minioadmin",
+    secure=False
+)
 
 app = FastAPI()
 
@@ -262,14 +274,74 @@ def delete_season(
 
 # Assessment routes
 @app.post("/assessments/", response_model=schemas.Assessment)
-def create_assessment(
-    assessment: schemas.AssessmentCreate, 
+async def create_assessment(
+    type: int = Form(...),
+    field_id: int = Form(...),
+    date: date = Form(...),
     db: Session = Depends(auth.get_db),
     current_user: schemas.User = Depends(auth.get_current_active_user),
     file: UploadFile = File(...)
 ):
+    predicted_class = cv.predict(await file.read())
+    assessment = schemas.AssessmentCreate(
+        type=type,
+        field_id=field_id,
+        date=date,
+        result=predicted_class,
+        user_id=current_user.id
+    )
+    db_assessment = crud.create_assessment(db=db, assessment=assessment)
+
+    # 3. Сохранение файла в MinIO
+    file_extension = os.path.splitext(file.filename)[1]  # .jpg, .png и т.д.
+    object_name = f"{db_assessment.id}{file_extension}"  # Имя файла = ID оценки
+    
+    try:
+        # Перематываем файл (так как file.read() уже вызывался)
+        await file.seek(0)
+        
+        # Загружаем в MinIO
+        minio_client.put_object(
+            bucket_name='app',
+            object_name=object_name,
+            data=file.file,
+            length=file.size,
+            content_type=file.content_type
+        )
+    except S3Error as e:
+        # Если ошибка, можно откатить создание записи или просто залогировать
+        raise HTTPException(
+            status_code=500,
+            detail=f"Ошибка при загрузке файла в MinIO: {e}"
+        )
+
+    return db_assessment
+'''
+@app.post("/assessments/", response_model=schemas.Assessment)
+def create_assessment(
+    assessment: schemas.AssessmentCreate, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user),
+):
     return crud.create_assessment(db=db, assessment=assessment)
 
+@app.post("/cv_assessments/")
+def cv_assesment(
+    id:int,
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user),
+    file: UploadFile = File(...)
+):
+    db_assessment = crud.get_assessment(db, assessment_id=id)
+    if db_assessment is None:
+        raise HTTPException(status_code=404, detail="Assessment not found")
+    predicted_class=cv.predict(file.file)
+    db_assessment.result=predicted_class
+    db_assessment = crud.update_assessment(db, id, db_assessment)
+    if db_assessment is None:
+        raise HTTPException(status_code=404, detail="Assessment not found")
+    return db_assessment
+'''
 @app.get("/assessments/", response_model=List[schemas.Assessment])
 def read_assessments(
     skip: int = 0, 
