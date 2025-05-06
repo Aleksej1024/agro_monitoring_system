@@ -10,7 +10,10 @@ import cv
 import json
 import os
 from minio import Minio
+from fastapi.responses import StreamingResponse
+import mimetypes
 from minio.error import S3Error
+import io
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -316,32 +319,26 @@ async def create_assessment(
         )
 
     return db_assessment
-'''
-@app.post("/assessments/", response_model=schemas.Assessment)
-def create_assessment(
-    assessment: schemas.AssessmentCreate, 
-    db: Session = Depends(auth.get_db),
-    current_user: schemas.User = Depends(auth.get_current_active_user),
-):
-    return crud.create_assessment(db=db, assessment=assessment)
 
-@app.post("/cv_assessments/")
-def cv_assesment(
-    id:int,
-    db: Session = Depends(auth.get_db),
-    current_user: schemas.User = Depends(auth.get_current_active_user),
-    file: UploadFile = File(...)
-):
-    db_assessment = crud.get_assessment(db, assessment_id=id)
-    if db_assessment is None:
-        raise HTTPException(status_code=404, detail="Assessment not found")
-    predicted_class=cv.predict(file.file)
-    db_assessment.result=predicted_class
-    db_assessment = crud.update_assessment(db, id, db_assessment)
-    if db_assessment is None:
-        raise HTTPException(status_code=404, detail="Assessment not found")
-    return db_assessment
-'''
+#Get image
+@app.get("/image/{file_name}")
+async def get_image(file_name: str):
+    bucket_name='app'
+    if not minio_client.bucket_exists(bucket_name):
+        raise HTTPException(status_code=404, detail="Bucket not found")
+    try:
+        response = minio_client.get_object(bucket_name, file_name)
+        content_type, _ = mimetypes.guess_type(file_name)
+        if content_type is None:
+            content_type = "application/octet-stream" 
+        data = io.BytesIO(response.read())
+        response.close()
+        response.release_conn()
+        return StreamingResponse(data, media_type=content_type)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=f"File not found or error: {str(e)}")
+
+
 @app.get("/assessments/", response_model=List[schemas.Assessment])
 def read_assessments(
     skip: int = 0, 
