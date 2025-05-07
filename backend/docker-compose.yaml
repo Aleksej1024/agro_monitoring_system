@@ -1,11 +1,17 @@
 version: '3.8'
 
+networks:
+  app_network:
+    driver: bridge
+
 services:
   postgres:
     image: postgres:latest
+    networks:
+      - app_network
     container_name: postgres
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U admin -P admin -d database" ]
+      test: [ "CMD-SHELL", "export PGPASSWORD=admin && pg_isready -U admin -d database" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -19,9 +25,11 @@ services:
 
   minio:
     image: minio/minio:latest
+    networks:
+      - app_network
     container_name: minio
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      test: ["CMD", "curl", "-f", "http://minio:9000/minio/health/live"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -34,18 +42,27 @@ services:
 
   createbucket:
     image: minio/mc
+    networks:
+      - app_network
     depends_on:
-      - minio
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
     restart: on-failure
     entrypoint: >-
       /bin/sh -c "
-      sleep 5;
+      sleep 10;
       /usr/bin/mc alias set local http://minio:9000 minioadmin minioadmin;
       /usr/bin/mc mb local/app;
       exit 0;
       "
+  
   fastapi_app:
     build: .
+    #image: fastapi_app_image
+    networks:
+      - app_network
     restart: always
     ports:
       - "8000:8000"
