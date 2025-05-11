@@ -49,6 +49,18 @@ async def login_for_access_token(
 async def read_users_me(current_user: schemas.User = Depends(auth.get_current_active_user)):
     return current_user
 
+@app.get("/create_dev_admin")
+async def create_dev_admin(  
+    db: Session = Depends(auth.get_db),
+): 
+    default_user = models.User(
+        fio="Главный Агроном",
+        role=1,
+        password='password123',
+        login="admin"
+    );
+    return crud.create_user(db=db, user=default_user)
+
 # User routes
 @app.post("/users/", response_model=schemas.User)
 def create_user(

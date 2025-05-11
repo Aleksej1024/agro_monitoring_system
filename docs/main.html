@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>main API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>main</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="main.create_assessment"><code class="name flex">
+<span>def <span class="ident">create_assessment</span></span>(<span>assessment: schemas.AssessmentCreate,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user),<br>file: fastapi.datastructures.UploadFile = File(PydanticUndefined))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.post(&#34;/assessments/&#34;, response_model=schemas.Assessment)
+def create_assessment(
+    assessment: schemas.AssessmentCreate, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user),
+    file: UploadFile = File(...)
+):
+    return crud.create_assessment(db=db, assessment=assessment)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.create_field"><code class="name flex">
+<span>def <span class="ident">create_field</span></span>(<span>field: schemas.FieldCreate,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.post(&#34;/fields/&#34;, response_model=schemas.Field)
+def create_field(
+    field: schemas.FieldCreate, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    auth.check_agronom_permission(current_user)
+    return crud.create_field(db=db, field=field)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.create_season"><code class="name flex">
+<span>def <span class="ident">create_season</span></span>(<span>season: schemas.SeasonCreate,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.post(&#34;/seasons/&#34;, response_model=schemas.Season)
+def create_season(
+    season: schemas.SeasonCreate, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    auth.check_agronom_permission(current_user)
+    return crud.create_season(db=db, season=season)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.create_task"><code class="name flex">
+<span>def <span class="ident">create_task</span></span>(<span>task: schemas.TaskCreate,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.post(&#34;/tasks/&#34;, response_model=schemas.Task)
+def create_task(
+    task: schemas.TaskCreate, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    auth.check_agronom_permission(current_user)
+    return crud.create_task(db=db, task=task)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.create_user"><code class="name flex">
+<span>def <span class="ident">create_user</span></span>(<span>user: schemas.UserCreate,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.post(&#34;/users/&#34;, response_model=schemas.User)
+def create_user(
+    user: schemas.UserCreate, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    auth.check_main_agronom_permission(current_user)
+    return crud.create_user(db=db, user=user)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.delete_assessment"><code class="name flex">
+<span>def <span class="ident">delete_assessment</span></span>(<span>assessment_id: int,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.delete(&#34;/assessments/{assessment_id}&#34;)
+def delete_assessment(
+    assessment_id: int, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    auth.check_agronom_permission(current_user)
+    success = crud.delete_assessment(db, assessment_id)
+    if not success:
+        raise HTTPException(status_code=404, detail=&#34;Assessment not found&#34;)
+    return {&#34;message&#34;: &#34;Assessment deleted successfully&#34;}</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.delete_field"><code class="name flex">
+<span>def <span class="ident">delete_field</span></span>(<span>field_id: int,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.delete(&#34;/fields/{field_id}&#34;)
+def delete_field(
+    field_id: int, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    auth.check_agronom_permission(current_user)
+    success = crud.delete_field(db, field_id)
+    if not success:
+        raise HTTPException(status_code=404, detail=&#34;Field not found&#34;)
+    return {&#34;message&#34;: &#34;Field deleted successfully&#34;}</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.delete_season"><code class="name flex">
+<span>def <span class="ident">delete_season</span></span>(<span>season_id: int,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.delete(&#34;/seasons/{season_id}&#34;)
+def delete_season(
+    season_id: int, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    auth.check_agronom_permission(current_user)
+    success = crud.delete_season(db, season_id)
+    if not success:
+        raise HTTPException(status_code=404, detail=&#34;Season not found&#34;)
+    return {&#34;message&#34;: &#34;Season deleted successfully&#34;}</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.delete_task"><code class="name flex">
+<span>def <span class="ident">delete_task</span></span>(<span>task_id: int,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.delete(&#34;/tasks/{task_id}&#34;)
+def delete_task(
+    task_id: int, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    auth.check_agronom_permission(current_user)
+    success = crud.delete_task(db, task_id)
+    if not success:
+        raise HTTPException(status_code=404, detail=&#34;Task not found&#34;)
+    return {&#34;message&#34;: &#34;Task deleted successfully&#34;}</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.delete_user"><code class="name flex">
+<span>def <span class="ident">delete_user</span></span>(<span>user_id: int,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.delete(&#34;/users/{user_id}&#34;)
+def delete_user(
+    user_id: int, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    auth.check_main_agronom_permission(current_user)
+    success = crud.delete_user(db, user_id)
+    if not success:
+        raise HTTPException(status_code=404, detail=&#34;User not found&#34;)
+    return {&#34;message&#34;: &#34;User deleted successfully&#34;}</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.login_for_access_token"><code class="name flex">
+<span>async def <span class="ident">login_for_access_token</span></span>(<span>form_data: fastapi.security.oauth2.OAuth2PasswordRequestForm = Depends(NoneType),<br>db: sqlalchemy.orm.session.Session = Depends(get_db))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.post(&#34;/token&#34;, response_model=schemas.Token)
+async def login_for_access_token(
+    form_data: OAuth2PasswordRequestForm = Depends(), 
+    db: Session = Depends(auth.get_db)
+):
+    user = auth.authenticate_user(db, form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=401,
+            detail=&#34;Incorrect username or password&#34;,
+            headers={&#34;WWW-Authenticate&#34;: &#34;Bearer&#34;},
+        )
+    access_token_expires = timedelta(minutes=auth.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = auth.create_access_token(
+        data={&#34;sub&#34;: str(user.id), &#34;role&#34;: user.role}, expires_delta=access_token_expires
+    )
+    return {&#34;access_token&#34;: access_token, &#34;token_type&#34;: &#34;bearer&#34;}</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.read_assessment"><code class="name flex">
+<span>def <span class="ident">read_assessment</span></span>(<span>assessment_id: int,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.get(&#34;/assessments/{assessment_id}&#34;, response_model=schemas.Assessment)
+def read_assessment(
+    assessment_id: int, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    db_assessment = crud.get_assessment(db, assessment_id=assessment_id)
+    if db_assessment is None:
+        raise HTTPException(status_code=404, detail=&#34;Assessment not found&#34;)
+    return db_assessment</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.read_assessments"><code class="name flex">
+<span>def <span class="ident">read_assessments</span></span>(<span>skip: int = 0,<br>limit: int = 100,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.get(&#34;/assessments/&#34;, response_model=List[schemas.Assessment])
+def read_assessments(
+    skip: int = 0, 
+    limit: int = 100, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    assessments = crud.get_assessments(db, skip=skip, limit=limit)
+    return assessments</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.read_field"><code class="name flex">
+<span>def <span class="ident">read_field</span></span>(<span>field_id: int,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.get(&#34;/fields/{field_id}&#34;, response_model=schemas.Field)
+def read_field(
+    field_id: int, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    db_field = crud.get_field(db, field_id=field_id)
+    if db_field is None:
+        raise HTTPException(status_code=404, detail=&#34;Field not found&#34;)
+    return db_field</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.read_fields"><code class="name flex">
+<span>def <span class="ident">read_fields</span></span>(<span>skip: int = 0,<br>limit: int = 100,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.get(&#34;/fields/&#34;, response_model=List[schemas.Field])
+def read_fields(
+    skip: int = 0, 
+    limit: int = 100, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    fields = crud.get_fields(db, skip=skip, limit=limit)
+    return fields</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.read_season"><code class="name flex">
+<span>def <span class="ident">read_season</span></span>(<span>season_id: int,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.get(&#34;/seasons/{season_id}&#34;, response_model=schemas.Season)
+def read_season(
+    season_id: int, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    db_season = crud.get_season(db, season_id=season_id)
+    if db_season is None:
+        raise HTTPException(status_code=404, detail=&#34;Season not found&#34;)
+    return db_season</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.read_seasons"><code class="name flex">
+<span>def <span class="ident">read_seasons</span></span>(<span>skip: int = 0,<br>limit: int = 100,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.get(&#34;/seasons/&#34;, response_model=List[schemas.Season])
+def read_seasons(
+    skip: int = 0, 
+    limit: int = 100, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    seasons = crud.get_seasons(db, skip=skip, limit=limit)
+    return seasons</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.read_task"><code class="name flex">
+<span>def <span class="ident">read_task</span></span>(<span>task_id: int,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.get(&#34;/tasks/{task_id}&#34;, response_model=schemas.Task)
+def read_task(
+    task_id: int, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    db_task = crud.get_task(db, task_id=task_id)
+    if db_task is None:
+        raise HTTPException(status_code=404, detail=&#34;Task not found&#34;)
+    return db_task</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.read_tasks"><code class="name flex">
+<span>def <span class="ident">read_tasks</span></span>(<span>skip: int = 0,<br>limit: int = 100,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.get(&#34;/tasks/&#34;, response_model=List[schemas.Task])
+def read_tasks(
+    skip: int = 0, 
+    limit: int = 100, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    tasks = crud.get_tasks(db, skip=skip, limit=limit)
+    return tasks</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.read_user"><code class="name flex">
+<span>def <span class="ident">read_user</span></span>(<span>user_id: int,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.get(&#34;/users/{user_id}&#34;, response_model=schemas.User)
+def read_user(
+    user_id: int, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    auth.check_main_agronom_permission(current_user)
+    db_user = crud.get_user(db, user_id=user_id)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail=&#34;User not found&#34;)
+    return db_user</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.read_users"><code class="name flex">
+<span>def <span class="ident">read_users</span></span>(<span>skip: int = 0,<br>limit: int = 100,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.get(&#34;/users/&#34;, response_model=List[schemas.User])
+def read_users(
+    skip: int = 0, 
+    limit: int = 100, 
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    auth.check_main_agronom_permission(current_user)
+    users = crud.get_users(db, skip=skip, limit=limit)
+    return users</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.read_users_me"><code class="name flex">
+<span>async def <span class="ident">read_users_me</span></span>(<span>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.get(&#34;/users/me/&#34;, response_model=schemas.User)
+async def read_users_me(current_user: schemas.User = Depends(auth.get_current_active_user)):
+    return current_user</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.update_assessment"><code class="name flex">
+<span>def <span class="ident">update_assessment</span></span>(<span>assessment_id: int,<br>assessment_update: schemas.AssessmentUpdate,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.put(&#34;/assessments/{assessment_id}&#34;, response_model=schemas.Assessment)
+def update_assessment(
+    assessment_id: int, 
+    assessment_update: schemas.AssessmentUpdate,
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    auth.check_agronom_permission(current_user)
+    db_assessment = crud.update_assessment(db, assessment_id, assessment_update)
+    if db_assessment is None:
+        raise HTTPException(status_code=404, detail=&#34;Assessment not found&#34;)
+    return db_assessment</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.update_field"><code class="name flex">
+<span>def <span class="ident">update_field</span></span>(<span>field_id: int,<br>field_update: schemas.FieldUpdate,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.put(&#34;/fields/{field_id}&#34;, response_model=schemas.Field)
+def update_field(
+    field_id: int, 
+    field_update: schemas.FieldUpdate,
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    auth.check_agronom_permission(current_user)
+    db_field = crud.update_field(db, field_id, field_update)
+    if db_field is None:
+        raise HTTPException(status_code=404, detail=&#34;Field not found&#34;)
+    return db_field</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.update_season"><code class="name flex">
+<span>def <span class="ident">update_season</span></span>(<span>season_id: int,<br>season_update: schemas.SeasonUpdate,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.put(&#34;/seasons/{season_id}&#34;, response_model=schemas.Season)
+def update_season(
+    season_id: int, 
+    season_update: schemas.SeasonUpdate,
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    auth.check_agronom_permission(current_user)
+    db_season = crud.update_season(db, season_id, season_update)
+    if db_season is None:
+        raise HTTPException(status_code=404, detail=&#34;Season not found&#34;)
+    return db_season</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.update_task"><code class="name flex">
+<span>def <span class="ident">update_task</span></span>(<span>task_id: int,<br>task_update: schemas.TaskUpdate,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.put(&#34;/tasks/{task_id}&#34;, response_model=schemas.Task)
+def update_task(
+    task_id: int, 
+    task_update: schemas.TaskUpdate,
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    auth.check_agronom_permission(current_user)
+    db_task = crud.update_task(db, task_id, task_update)
+    if db_task is None:
+        raise HTTPException(status_code=404, detail=&#34;Task not found&#34;)
+    return db_task</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="main.update_user"><code class="name flex">
+<span>def <span class="ident">update_user</span></span>(<span>user_id: int,<br>user_update: schemas.UserUpdate,<br>db: sqlalchemy.orm.session.Session = Depends(get_db),<br>current_user: schemas.User = Depends(get_current_active_user))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.put(&#34;/users/{user_id}&#34;, response_model=schemas.User)
+def update_user(
+    user_id: int, 
+    user_update: schemas.UserUpdate,
+    db: Session = Depends(auth.get_db),
+    current_user: schemas.User = Depends(auth.get_current_active_user)
+):
+    auth.check_main_agronom_permission(current_user)
+    db_user = crud.update_user(db, user_id, user_update)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail=&#34;User not found&#34;)
+    return db_user</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="main.create_assessment" href="#main.create_assessment">create_assessment</a></code></li>
+<li><code><a title="main.create_field" href="#main.create_field">create_field</a></code></li>
+<li><code><a title="main.create_season" href="#main.create_season">create_season</a></code></li>
+<li><code><a title="main.create_task" href="#main.create_task">create_task</a></code></li>
+<li><code><a title="main.create_user" href="#main.create_user">create_user</a></code></li>
+<li><code><a title="main.delete_assessment" href="#main.delete_assessment">delete_assessment</a></code></li>
+<li><code><a title="main.delete_field" href="#main.delete_field">delete_field</a></code></li>
+<li><code><a title="main.delete_season" href="#main.delete_season">delete_season</a></code></li>
+<li><code><a title="main.delete_task" href="#main.delete_task">delete_task</a></code></li>
+<li><code><a title="main.delete_user" href="#main.delete_user">delete_user</a></code></li>
+<li><code><a title="main.login_for_access_token" href="#main.login_for_access_token">login_for_access_token</a></code></li>
+<li><code><a title="main.read_assessment" href="#main.read_assessment">read_assessment</a></code></li>
+<li><code><a title="main.read_assessments" href="#main.read_assessments">read_assessments</a></code></li>
+<li><code><a title="main.read_field" href="#main.read_field">read_field</a></code></li>
+<li><code><a title="main.read_fields" href="#main.read_fields">read_fields</a></code></li>
+<li><code><a title="main.read_season" href="#main.read_season">read_season</a></code></li>
+<li><code><a title="main.read_seasons" href="#main.read_seasons">read_seasons</a></code></li>
+<li><code><a title="main.read_task" href="#main.read_task">read_task</a></code></li>
+<li><code><a title="main.read_tasks" href="#main.read_tasks">read_tasks</a></code></li>
+<li><code><a title="main.read_user" href="#main.read_user">read_user</a></code></li>
+<li><code><a title="main.read_users" href="#main.read_users">read_users</a></code></li>
+<li><code><a title="main.read_users_me" href="#main.read_users_me">read_users_me</a></code></li>
+<li><code><a title="main.update_assessment" href="#main.update_assessment">update_assessment</a></code></li>
+<li><code><a title="main.update_field" href="#main.update_field">update_field</a></code></li>
+<li><code><a title="main.update_season" href="#main.update_season">update_season</a></code></li>
+<li><code><a title="main.update_task" href="#main.update_task">update_task</a></code></li>
+<li><code><a title="main.update_user" href="#main.update_user">update_user</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>
