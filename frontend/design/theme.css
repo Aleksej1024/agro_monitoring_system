@@ -375,7 +375,7 @@ input:-webkit-autofill {
 	font-weight: 200;
 }
 
-.body table img {
+.body table img, .modal_window_lk table img {
 	width: 30px;
 	cursor: pointer;
 }

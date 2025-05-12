@@ -1,0 +1,18 @@
+<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with SVG Editor - http://github.com/mzalive/SVG Editor/ -->
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="11.599991" width="11.599991" y="-1" x="-1"/>
+  <g display="none" id="canvasGrid">
+   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%" id="svg_4"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <ellipse ry="28" rx="28" id="svg_1" cy="29.453125" cx="30.5" stroke-width="1.5" fill="#00bf00"/>
+  <ellipse id="svg_2" cy="9.453125" cx="532.5" stroke-width="1.5" stroke="#000" fill="#fff"/>
+  <line fill="none" stroke="#ffffff" stroke-width="5.5" x1="17.5" y1="19.453125" x2="43" y2="40.453125" id="svg_3" stroke-linejoin="null" stroke-linecap="null"/>
+  <line fill="none" stroke="#ffffff" stroke-width="5.5" x1="16.5" y1="19.453125" x2="42.5" y2="40.453125" id="svg_5" stroke-linejoin="null" stroke-linecap="null" transform="rotate(-87 29.5,29.953125) "/>
+ </g>
+</svg>

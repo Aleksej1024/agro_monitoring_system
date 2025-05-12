@@ -60,7 +60,6 @@ function exitLK() {
 $(document).ready(function() {
 	$('.dateMask').mask('9999-99-99');
 	var hrefs = {
-		"Пользователи" : "../users",
 		"Задачи" : "../tasks",
 		"Реестр полей и сезоны" : "../fields",
 		};
@@ -232,4 +231,63 @@ function getHistoryTable() {
 				}
 			}
 		});
+}
+
+function getUsersTable() {
+	$.ajax({
+			url: 'http://' + pathToBackend + '/users/',
+			method: 'GET',
+			dataType: 'json',
+			headers: {
+                Authorization : "Bearer " + sessionStorage.getItem("token"),
+                accept : "application/json"
+            },
+			success: function(data) {
+				if (data != undefined) {
+					$('#users_table').empty();
+					var role;
+					for (var i = 0; i < data.length; i++) {
+					    switch(data[i]["role"]) {
+					        case 0:
+					            role = "Главный агроном";
+					            break;
+					        case 1:
+					            role = "Агроном";
+					            break;
+					        case 2:
+					            role = "Лаборант";
+					            break;
+
+					    }
+                        $("#users_table").append("<tr>"
+                            + "<td>" + data[i]["fio"] + "</td>"
+                            + "<td>" + data[i]["login"] + "</td>"
+                            + "<td>" + role + "</td>"
+                            + "<td><img onclick = '' title = 'Удалить аккаунт' src = 'design/delete.svg'></td>"
+                            + "<td><img onclick = '' title = 'Сбросить пароль' src = 'design/invite.svg'></td>"
+                            + "<td><img onclick = '' title = 'Редактировать' src = 'design/edit.svg'></td>"
+                            + "</tr>");
+						}
+				}
+			}
+		});
+}
+
+function add_staff(element) {
+    if (mode == 1) {
+        $(element).text('Отменить добавление');
+        $(element).addClass('activated');
+        $("#users_table").append("<tr>"
+        + "<td><input name = 'fio' placeholder='ФИО'></td>"
+        + "<td><input name = 'login' placeholder='Логин'></td>"
+        + "<td ><select style = 'width: 170px;' name = 'role'><option value = '1'>Агроном</option><option value = '2'>Лаборант</option></select></td>"
+        + "<td><img src = 'design/ok.svg' style = 'width: 30px; cursor: pointer' title = 'Подтвердить' onclick = '$(\"#seazon_field_form\").submit()'></td>"
+        + "</tr>");
+        mode = 0;
+    }
+    else {
+         $("#users_table tr").eq($("#users_table tr").length - 1).remove();
+         $(element).text('Добавить сотрудника');
+         mode = 1;
+    }
 }
