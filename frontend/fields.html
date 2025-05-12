@@ -24,19 +24,18 @@
 		<div class = "nav"></div>
 		<div class = "body_header">
 			<h2>Реестр полей</h2>
-			<p>В данном разделе Вы можете осуществлять управление реестром полей</p>
+			<p>В данном разделе Вы можете осуществлять управление списков сезонов, полями</p>
 		</div>
 		<div class = "flex_div">
-			<button onclick = "modal_window_controller('createForm_window', 1)">Добавить поле</button>
+			<button onclick = "modal_window_controller('createField_window', 1)">Добавить поле</button>
 			<button onclick = "window.location.reload()">Обновить список полей</button>
 		</div>
-		<table id = "staffListTable">
+		<table id = "seazonsListTable">
 			<thead>
 				<tr>
-					<th>ID</th>
-					<th>ФИО</th>
-					<th>Логин</th>
-					<th>Роль</th>
+					<th>ID поля</th>
+					<th>Расположение</th>
+					<th>Площадь поля</th>
 					<th colspan = "2">Действия</th>
 				</tr>
 			</thead>
@@ -44,6 +43,60 @@
 			</tbody>
 		</table>
 	</div>
+
+	<!--Добавление поля-->
+	<div class = 'modal_wrap_lk'></div>
+	<div class = 'modal_window_lk' style = "height: 360px" id = "createField_window">
+		<h3>Добавление поля</h3>
+		<form id = 'create_field_form'>
+			<div>Расположение поля</div>
+			<input name = "location" required>
+			<div>Площадь</div>
+			<input name = "area" required type="number" min="1">
+			<input name = "status" value = "1" class = "hidden_form_field">
+		</form>
+		<div class = "modal_buttons_panel">
+			<button class = "modal_button" data-type = "confirm" onclick = "$('#create_field_form').submit()">Подтвердить</button>
+			<button class = "modal_button" data-type = "cancel" onclick = "modal_window_controller('createField_window', 0)">Отменить</button>
+		</div>
+	</div>
+
+	<!--Карта поля-->
+	<div class = 'modal_window_lk' style = "width: 900px; height: 700px" id = "infoField_window">
+		<h3 id = "card_name">Карточка поля</h3>
+		<form id = 'edit_field_form'>
+			<div>Расположение поля</div>
+			<input name = "location" required>
+			<div>Площадь</div>
+			<input name = "area" required type="number" min="1">
+			<input name = "status" value = "1" class = "hidden_form_field">
+		</form>
+
+		<div>История посадок</div>
+		<table id = "historyListTable" class = "inwindowsTable">
+			<thead>
+				<tr>
+					<th>Год</th>
+					<th>Культура</th>
+					<th>Дата начала засева </th>
+					<th>Дата начала уборки</th>
+					<th>Засеяно</th>
+					<th>Собрано</th>
+				</tr>
+			</thead>
+			<tbody>
+			<td>1</td>
+			</tbody>
+		</table>
+
+		<div class = "modal_buttons_panel">
+			<button class = "modal_button" data-type = "update" onclick = "$('#edit_field_form').submit()">Обновить данные</button>
+			<button class = "modal_button" data-type = "cancel" onclick = "delete_field()">Удалить поле</button>
+			<button class = "modal_button" data-type = "confirm" onclick = "modal_window_controller('infoField_window', 0)">Закрыть карточку</button>
+		</div>
+		<input name = "id" class = "hidden_form_field">
+	</div>
+
 	<script src = 'app.js'></script>
 </body>
 </html>

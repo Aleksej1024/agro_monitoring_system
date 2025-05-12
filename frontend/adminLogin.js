@@ -1,9 +1,11 @@
-var pathToBackend = window.location.hostname;
+//var pathToBackend = window.location.hostname;
+
+var pathToBackend = "192.168.2.2:8000";
 
 $('#auth').on('submit', function(e) {
 	e.preventDefault();
 	$.ajax({
-            url: 'http://' + pathToBackend + ':8000/token',
+            url: 'http://' + pathToBackend + '/token',
 		method: 'POST',
 		dataType: 'json',
 		contentType: "application/x-www-form-urlencoded",
@@ -26,7 +28,7 @@ function getUser() {
 	var f = null;
 	$.ajax({
 		'async': false,
-		url: 'http://' + pathToBackend + ':8000/users/me/',
+		url: 'http://' + pathToBackend + '/users/me/',
 		method: 'GET',
 		headers: {
 		Authorization : "Bearer " + sessionStorage.getItem("token"),
