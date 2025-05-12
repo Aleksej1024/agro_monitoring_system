@@ -2,6 +2,8 @@
 
 var pathToBackend = "192.168.2.2:8000";
 
+var mode = 1;
+
 function errorPushWindow(data) {
     alert("Произошла ошибка");
 }
@@ -49,6 +51,12 @@ function getSeazonsTable() {
 		});
 }
 
+
+function exitLK() {
+	sessionStorage.clear();
+	window.location.reload();
+}
+
 $(document).ready(function() {
 	$('.dateMask').mask('9999-99-99');
 	var hrefs = {
@@ -77,9 +85,9 @@ $('#create_field_form').on('submit', function(e) {
 			dataType: 'json',
 			contentType: "application/json",
 			data: JSON.stringify({
-			    location: $("#create_field_form [name=location]").val(),
-			    area: Number($("#create_field_form [name=area]").val()),
-			    status: Number($("#create_field_form [name=status]").val()),
+			    location: $("#create_field_form input[name=location]").val(),
+			    area: Number($("#create_field_form input[name=area]").val()),
+			    status: Number($("#create_field_form input[name=status]").val()),
 			}),
 			headers: {
                 Authorization : "Bearer " + sessionStorage.getItem("token")
@@ -97,14 +105,14 @@ $('#create_field_form').on('submit', function(e) {
 $('#edit_field_form').on('submit', function(e) {
 	e.preventDefault();
 	$.ajax({
-			url: 'http://' + pathToBackend + '/fields/' + $("#infoField_window [name=id]").val(),
+			url: 'http://' + pathToBackend + '/fields/' + $("#infoField_window input[name=id]").val(),
 			method: 'PUT',
 			dataType: 'json',
 			contentType: "application/json",
 			data: JSON.stringify({
-			    location: $("#edit_field_form [name=location]").val(),
-			    area: Number($("#edit_field_form [name=area]").val()),
-			    status: Number($("#edit_field_form [name=status]").val()),
+			    location: $("#edit_field_form input[name=location]").val(),
+			    area: Number($("#edit_field_form input[name=area]").val()),
+			    status: Number($("#edit_field_form input[name=status]").val()),
 			}),
 			headers: {
                 Authorization : "Bearer " + sessionStorage.getItem("token")
@@ -119,10 +127,38 @@ $('#edit_field_form').on('submit', function(e) {
 	return false;
 });
 
+$('#seazon_field_form').on('submit', function(e) {
+	e.preventDefault();
+	$.ajax({
+			url: 'http://' + pathToBackend + '/seasons/',
+			method: 'POST',
+			dataType: 'json',
+			contentType: "application/json",
+			data: JSON.stringify({
+			    year: Number($("#historyListTable input[name=year]").val()),
+			    culture: $("#historyListTable input[name=culture]").val(),
+			    start_date: $("#historyListTable input[name=start_date]").val(),
+			    end_date: $("#historyListTable input[name=end_date]").val(),
+			    field_id: Number($("#infoField_window input[name=id]").val()),
+			    start_volume: Number($("#historyListTable input[name=start_volume]").val()),
+			    end_volume: Number($("#historyListTable input[name=end_volume]").val()),
+			}),
+			headers: {
+                Authorization : "Bearer " + sessionStorage.getItem("token")
+            },
+			success: function(data){
+				window.location.reload();
+			},
+			error: function(data) {
+				errorPushWindow(data);
+			}
+		});
+	return false;
+});
 
 function delete_field() {
     $.ajax({
-        url: 'http://' + pathToBackend + '/fields/' + Number($("#infoField_window [name=id]").val()),
+        url: 'http://' + pathToBackend + '/fields/' + Number($("#infoField_window input[name=id]").val()),
         method: 'DELETE',
         dataType: 'json',
         contentType: "application/json",
@@ -130,7 +166,7 @@ function delete_field() {
             Authorization : "Bearer " + sessionStorage.getItem("token")
         },
         success: function(data){
-            window.location.reload();
+            get_history_table();
         },
         error: function(data) {
             errorPushWindow(data);
@@ -140,6 +176,60 @@ function delete_field() {
 
 function field_card_window(fid) {
     $("#card_name").text("Карточка поля c ID #" + fid);
-    $("#edit_field_form [name=location]").val($("#row1_" + fid).text());
-    $("#edit_field_form [name=area]").val($("#row2_" + fid).text());
+    $("#edit_field_form input[name=location]").val($("#row1_" + fid).text());
+    $("#edit_field_form input[name=area]").val($("#row2_" + fid).text());
+    getHistoryTable()
+}
+
+function add_seazon(element) {
+    if (mode == 1) {
+        $(element).text('Удалить сезон');
+        $(element).addClass('activated');
+        $("#historyListTable").append("<tr>"
+        + "<td><input name = 'year'></td>"
+        + "<td><input name = 'culture'></td>"
+        + "<td><input name = 'start_date' type='date'></td>"
+        + "<td><input name = 'end_date' type='date'></td>"
+        + "<td><input style = 'width: 60px' name = 'start_volume' type='number' min='0'></td>"
+        + "<td><input style = 'width: 60px' name = 'end_volume' type='number'</td>"
+        + "<td><img src = 'design/ok.svg' style = 'width: 30px; cursor: pointer' onclick = '$(\"#seazon_field_form\").submit()'></td>"
+        + "</tr>");
+        mode = 0;
+    }
+    else {
+         $("#historyListTable tr").eq($("#historyListTable tr").length - 1).remove();
+         $(element).text('Добавить сезон');
+         mode = 1;
+    }
+}
+
+function getHistoryTable() {
+	$.ajax({
+			url: 'http://' + pathToBackend + '/seasons/',
+			method: 'GET',
+			dataType: 'json',
+			headers: {
+                Authorization : "Bearer " + sessionStorage.getItem("token"),
+                accept : "application/json"
+            },
+			success: function(data) {
+				if (data != undefined) {
+					$('#history_table tbody').empty();
+					for (var i = 0; i < data.length; i++) {
+						var id = data[i]["id"];
+						if (data[i]["field_id"] == Number($("#infoField_window input[name=id]").val())) {
+                            $("#historyListTable").append("<tr>"
+                                + "<td>" + data[i]["year"] + "</td>"
+                                + "<td>" + data[i]["culture"] + "</td>"
+                                + "<td>" + data[i]["start_date"] + "</td>"
+                                + "<td>" + data[i]["end_date"] + "</td>"
+                                + "<td style = 'width: 50px'>" + data[i]["start_volume"] + "</td>"
+                                + "<td>" + data[i]["end_volume"] + "</td>"
+                                + "<td></td>"
+                                + "</tr>");
+						}
+					}
+				}
+			}
+		});
 }

@@ -62,7 +62,7 @@
 	</div>
 
 	<!--Карта поля-->
-	<div class = 'modal_window_lk' style = "width: 900px; height: 700px" id = "infoField_window">
+	<div class = 'modal_window_lk' style = "width: 1100px; height: 700px" id = "infoField_window">
 		<h3 id = "card_name">Карточка поля</h3>
 		<form id = 'edit_field_form'>
 			<div>Расположение поля</div>
@@ -72,26 +72,36 @@
 			<input name = "status" value = "1" class = "hidden_form_field">
 		</form>
 
+
 		<div>История посадок</div>
-		<table id = "historyListTable" class = "inwindowsTable">
-			<thead>
-				<tr>
-					<th>Год</th>
-					<th>Культура</th>
-					<th>Дата начала засева </th>
-					<th>Дата начала уборки</th>
-					<th>Засеяно</th>
-					<th>Собрано</th>
-				</tr>
-			</thead>
-			<tbody>
-			<td>1</td>
-			</tbody>
-		</table>
+		<div class = "table_in_div_head">
+			<table>
+				<thead>
+					<tr>
+						<th>Год</th>
+						<th>Сорт</th>
+						<th>Дата начала <br> засева </th>
+						<th>Дата начала <br> уборки</th>
+						<th>Засеяно, <br>га</th>
+						<th>Собрано, <br>га</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+
+		<div class = "table_in_div_body">
+			<table id = "history_table">
+				<form id = 'seazon_field_form'>
+					<tbody id = "historyListTable">
+					</tbody>
+				</form>
+			</table>
+		</div>
 
 		<div class = "modal_buttons_panel">
 			<button class = "modal_button" data-type = "update" onclick = "$('#edit_field_form').submit()">Обновить данные</button>
 			<button class = "modal_button" data-type = "cancel" onclick = "delete_field()">Удалить поле</button>
+			<button class = "modal_button" data-type = "read" onclick = "add_seazon(this)">Добавить сезон</button>
 			<button class = "modal_button" data-type = "confirm" onclick = "modal_window_controller('infoField_window', 0)">Закрыть карточку</button>
 		</div>
 		<input name = "id" class = "hidden_form_field">

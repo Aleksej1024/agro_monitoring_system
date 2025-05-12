@@ -11,7 +11,7 @@ div, span, a, p, #auth input {
 	font-weight: 300;
 	}
 
-textarea, button, #auth input, table input  {
+textarea, #auth input, table input  {
 	font-family: Montserrat, Arial;
 	padding: 10px;
 	font-size: 15px;
@@ -147,25 +147,6 @@ input:-webkit-autofill {
 	margin: 10px 0;
 	width: 100%;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .header * {
 	color: white;
@@ -341,7 +322,7 @@ input:-webkit-autofill {
 	padding: 10px;
 }
 
-.info_block[data-color=blue] {
+.info_block[data-color=blue],.modal_button[data-type=read] {
 	background: #1E90FF;
 }
 
@@ -355,6 +336,13 @@ input:-webkit-autofill {
 
 .info_block[data-color=yellow], .modal_button[data-type=update] {
 	background: #ffaa00;
+}
+
+
+.modal_button[data-type=read]:active, .modal_button[data-type=read]:disabled {
+	background: none;
+	color: #1E90FF;
+	border: 1px solid #1E90FF;
 }
 
 .modal_button[data-type=cancel]:active {
@@ -452,7 +440,22 @@ input:-webkit-autofill {
 	display: none;
 }
 
+.table_in_div_body {
+    height: 240px;
+    overflow-y: auto;
+    margin: 15px 0
+}
 
+#historyListTable input  {
+    margin: 0px;
+    padding: 0px;
+}
+.table_in_div_head th {
+    padding: 10px 15px;
+}
+.table_in_div_body td {
+    padding: 10px 15px;
+}
 
 ::-webkit-scrollbar { width: 6px; height: 10px;}
 ::-webkit-scrollbar-track {  background-color: black;}
