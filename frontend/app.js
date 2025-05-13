@@ -247,25 +247,31 @@ function getUsersTable() {
 					$('#users_table').empty();
 					var role;
 					for (var i = 0; i < data.length; i++) {
+					    console.log(data[i]);
 					    switch(data[i]["role"]) {
-					        case 0:
+					        case 1:
 					            role = "Главный агроном";
 					            break;
-					        case 1:
+					        case 2:
 					            role = "Агроном";
 					            break;
-					        case 2:
+					        case 3:
 					            role = "Лаборант";
 					            break;
-
 					    }
+
+					    var del = "";
+					    if (data[i]["id"] != getUser()["id"])
+					        del = "<img onclick = 'delete_account(\""+data[i]["id"]+"\")' title = 'Удалить аккаунт' src = 'design/delete.svg'>";
+
+                        var temp_password = random_number(1111,9999);
+
                         $("#users_table").append("<tr>"
                             + "<td>" + data[i]["fio"] + "</td>"
                             + "<td>" + data[i]["login"] + "</td>"
                             + "<td>" + role + "</td>"
-                            + "<td><img onclick = '' title = 'Удалить аккаунт' src = 'design/delete.svg'></td>"
-                            + "<td><img onclick = '' title = 'Сбросить пароль' src = 'design/invite.svg'></td>"
-                            + "<td><img onclick = '' title = 'Редактировать' src = 'design/edit.svg'></td>"
+                            + "<td>" + del + "</td>"
+                            + "<td><img onclick = 'alert(\"Новый пароль для пользователя " + data[i]["fio"] + ": " + temp_password + "\"); change_account(\""+data[i]["id"]+"\", { password: \"" + temp_password + "\" })' title = 'Сбросить пароль' src = 'design/invite.svg'></td>"
                             + "</tr>");
 						}
 				}
@@ -280,8 +286,9 @@ function add_staff(element) {
         $("#users_table").append("<tr>"
         + "<td><input name = 'fio' placeholder='ФИО'></td>"
         + "<td><input name = 'login' placeholder='Логин'></td>"
-        + "<td ><select style = 'width: 170px;' name = 'role'><option value = '1'>Агроном</option><option value = '2'>Лаборант</option></select></td>"
-        + "<td><img src = 'design/ok.svg' style = 'width: 30px; cursor: pointer' title = 'Подтвердить' onclick = '$(\"#seazon_field_form\").submit()'></td>"
+        + "<td ><select style = 'width: 170px;' name = 'role'><option value = '2'>Агроном</option><option value = '3'>Лаборант</option></select></td>"
+        + "<td><input name = 'password' placeholder='Пароль' value = '"+ random_number(1111,9999) + "'></td>"
+        + "<td><img src = 'design/ok.svg' style = 'width: 30px; cursor: pointer' title = 'Подтвердить' onclick = '$(\"#new_user_field_form\").submit()'></td>"
         + "</tr>");
         mode = 0;
     }
@@ -290,4 +297,71 @@ function add_staff(element) {
          $(element).text('Добавить сотрудника');
          mode = 1;
     }
+}
+
+function random_number(min, max) {
+      return Math.floor(Math.random() * (max - min) + min)
+  }
+
+$('#new_user_field_form').on('submit', function(e) {
+	e.preventDefault();
+	$.ajax({
+			url: 'http://' + pathToBackend + '/users/',
+			method: 'POST',
+			dataType: 'json',
+			contentType: "application/json",
+			data: JSON.stringify({
+			    fio: $("#users_table input[name=fio]").val(),
+			    login: $("#users_table input[name=login]").val(),
+			    role: $("#users_table select[name=role]").val(),
+			    password: $("#users_table input[name=password]").val(),
+			}),
+			headers: {
+                Authorization : "Bearer " + sessionStorage.getItem("token")
+            },
+			success: function(data){
+				window.location.reload();
+			},
+			error: function(data) {
+				errorPushWindow(data);
+			}
+		});
+	return false;
+});
+
+function delete_account(id) {
+    $.ajax({
+        url: 'http://' + pathToBackend + '/users/' + id,
+        method: 'DELETE',
+        dataType: 'json',
+        contentType: "application/json",
+        headers: {
+            Authorization : "Bearer " + sessionStorage.getItem("token")
+        },
+        success: function(data){
+            window.location.reload();
+        },
+        error: function(data) {
+            errorPushWindow(data);
+        }
+    });
+}
+
+function change_account(id, data) {
+    $.ajax({
+        url: 'http://' + pathToBackend + '/users/' + id,
+        method: 'PUT',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        headers: {
+            Authorization : "Bearer " + sessionStorage.getItem("token")
+        },
+        success: function(data){
+            window.location.reload();
+        },
+        error: function(data) {
+            errorPushWindow(data);
+        }
+    });
 }
