@@ -1,6 +1,4 @@
-//var pathToBackend = window.location.hostname;
-
-var pathToBackend = "192.168.2.2:8000";
+var pathToBackend = window.location.hostname + ":8000";
 
 var mode = 1;
 

@@ -59,7 +59,7 @@ services:
       "
   
   fastapi_app:
-    build: .
+    build: backend/.
     #image: fastapi_app_image
     networks:
       - app_network
@@ -73,3 +73,14 @@ services:
         condition: service_healthy
       minio:
         condition: service_healthy
+
+  web_server:
+    build: frontend/.
+    networks:
+      - app_network
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      postgres:
+        condition: fastapi_app
