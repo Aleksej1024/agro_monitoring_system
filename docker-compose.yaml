@@ -82,5 +82,5 @@ services:
     ports:
       - "80:80"
     depends_on:
-      postgres:
-        condition: fastapi_app
+      fastapi_app:
+        condition: service_healthy
