@@ -81,6 +81,4 @@ services:
     restart: always
     ports:
       - "80:80"
-    depends_on:
-      fastapi_app:
-        condition: service_healthy
+    
