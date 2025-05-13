@@ -14,6 +14,7 @@ from fastapi.responses import StreamingResponse
 import mimetypes
 from minio.error import S3Error
 import io
+from fastapi.middleware.cors import CORSMiddleware
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -25,6 +26,15 @@ minio_client = Minio(
 )
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # Authentication
 @app.post("/token", response_model=schemas.Token)
