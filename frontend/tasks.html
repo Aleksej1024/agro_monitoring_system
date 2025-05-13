@@ -9,7 +9,6 @@
 	<script src = 'adminLogin.js'></script>
 	<script src = './jquery.maskedinput.min.js'></script>
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400&display=swap" rel="stylesheet">
-
 </head>
 <body onload = "if (!getUser()) {  window.location.href = '/'; }">
 	<div class = "header">
@@ -27,9 +26,9 @@
 			<p>В данном разделе Вы можете осуществлять управление задачами и оценками</p>
 		</div>
 		<div class = "flex_div">
-			<button onclick = "modal_window_controller('createField_window', 1)">Создать задачу</button>
-			<button onclick = "window.location.reload()">Обновить список задач</button>
-			<button onclick = "modal_window_controller('users_window',1); getUsersTable()">Менеджмент сотрудников</button>
+			<button id = "create_task_btn" onclick = "modal_window_controller('createField_window', 1)">Создать задачу</button>
+			<button id = "refresh_task_btn" onclick = "window.location.reload()">Обновить список задач</button>
+			<button id = "manage_account_btn" onclick = "modal_window_controller('users_window',1); getUsersTable()">Менеджмент сотрудников</button>
 		</div>
 		<table id = "seazonsListTable">
 			<thead>
@@ -79,7 +78,12 @@
 		</div>
 		<input name = "id" class = "hidden_form_field">
 	</div>
-
 	<script src = 'app.js'></script>
+	<script>
+		if (getUser()["role"] > 1) {
+			$("#create_task_btn").css("display", "none")
+			$("#manage_account_btn").css("display", "none")
+		}
+	</script>
 </body>
 </html>
