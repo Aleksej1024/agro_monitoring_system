@@ -46,13 +46,13 @@
 
 	<!--Добавление поля-->
 	<div class = 'modal_wrap_lk'></div>
-	<div class = 'modal_window_lk' style = "height: 360px" id = "createField_window">
+	<div class = 'modal_window_lk' style = "height: 370px" id = "createField_window">
 		<h3>Добавление поля</h3>
 		<form id = 'create_field_form'>
-			<div>Расположение поля</div>
-			<input name = "location" required>
+			<div>Расположение поля <br> (адрес административной единицы)</div>
+			<input name = "location" required placeholder="Шереметьевское сельское поселение, Нижнекамский район, Республика Татарстан">
 			<div>Площадь</div>
-			<input name = "area" required type="number" min="1">
+			<input name = "area" required type="number" min="1" placeholder = "1">
 			<input name = "status" value = "1" class = "hidden_form_field">
 		</form>
 		<div class = "modal_buttons_panel">
@@ -66,8 +66,8 @@
 		<h3 id = "card_name">Карточка поля</h3>
 		<form id = 'edit_field_form'>
 			<div>Расположение поля</div>
-			<input name = "location" required>
-			<div>Площадь</div>
+			<input name = "location" required placeholder="">
+			<div>Площадь по документам (в гектарах)</div>
 			<input name = "area" required type="number" min="1">
 			<input name = "status" value = "1" class = "hidden_form_field">
 		</form>

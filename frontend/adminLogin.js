@@ -16,7 +16,7 @@ $('#auth').on('submit', function(e) {
 			window.location.href="/fields";
 		},
 		error: function(data){
-			var error = data["responseText"] || "Произошла ошибка при обращении к API";
+			var error = data["responseJSON"]["detail"] || "Произошла ошибка при обращении к API";
 			$('.error_base').text(error);
 			$('.error_base').css('display','block');
 		}
