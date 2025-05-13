@@ -413,6 +413,7 @@ function getFieldList() {
 					for (var i = 0; i < data.length; i++) {
 					    if (data[i]["status"] == 1) {
                             $("#fields_dir").append("<option value=\"" + data[i]["id"] + "\">" + data[i]["location"] + "</option>");
+                            $("#fields_dir_edit").append("<option value=\"" + data[i]["id"] + "\">" + data[i]["location"] + "</option>");
 					    }
 					}
 				}
@@ -433,12 +434,38 @@ function getUsersList() {
 					$('#employee_dir').empty();
 					for (var i = 0; i < data.length; i++) {
                         $("#employee_dir").append("<option value=\"" + data[i]["id"] + "\">" + data[i]["fio"] + "</option>");
+                        $("#employee_dir_edit").append("<option value=\"" + data[i]["id"] + "\">" + data[i]["fio"] + "</option>");
 					}
 				}
 			}
 		});
 
 }
+
+function get_assesment_info(task_id, field_id) {
+	$.ajax({
+		url: 'http://' + pathToBackend + '/assessments/',
+		method: 'GET',
+		headers: {
+		Authorization : "Bearer " + sessionStorage.getItem("token"),
+		accept : "application/json"
+		},
+		success:  function(data) {
+            if (data != undefined) {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i]["field_id"] == field_id && data[i]["type"] == task_id ) {
+                        $("#row4_" + task_id).html("<div style = 'color: green; font-weight: 700'>Оценено</div>");
+                        break;
+                    }
+                    else {
+                        $("#row4_" + task_id).html("<div style = 'color: red; font-weight: 700'>Не оценено</div>");
+                    }
+                }
+            }
+		}
+	});
+}
+
 
 function getTasksTable() {
 	$.ajax({
@@ -454,25 +481,32 @@ function getTasksTable() {
 					$('#tasksListTable>tbody').empty();
 					for (var i = 0; i < data.length; i++) {
 						var id = data[i]["id"];
+						get_assesment_info(data[i]["id"], data[i]["field_id"]);
+
 						if (getUser()["role"] == 2 && data[i]["user_id"] == getUser()["id"]) {
-                            $('#tasksListTable>tbody').append(
-                                "<tr><td>" + id + "</td>"
+                            $('#tasksListTable > tbody').append(
+                                "<tr>"
                                 + "<td id='row1_"+ data[i]["id"]+"'>" + data[i]["id"] + "</td>"
                                 + "<td id='row2_"+ data[i]["id"]+"'>" + data[i]["description"] + "</td>"
+                                + "<td id='row2_"+ data[i]["id"]+"'>" + get_user_info(data[i]["user_id"])["fio"] + "</td>"
                                 + "<td id='row3_"+ data[i]["id"]+"'>" + get_field_info(data[i]["id"])["location"] + "</td>"
-                                + "<td id='row4_"+ data[i]["id"]+"'>" + get_assesment_info(data[i]["id"], get_field_info(data[i]["id"])["id"]) + "</td>"
-                                + "<td><img onclick = 'assesment(\"" + data[i]["id"] + "\"); modal_window_controller(\"assesField_window\", 1, \"" + data[i]["id"] + "\")' title = ' Оценивание' src = 'design/services.svg'></td>"
+                                + "<td id='row4_"+ data[i]["id"]+"'></td>"
+                               + "<td><img onclick = 'assesment(\"" + data[i]["id"] + "\", \"" + data[i]["field_id"] + "\"); modal_window_controller(\"infoTask_window\", 1, \"" + data[i]["id"] + "\")' title = ' Оценивание' src = 'design/services.svg'></td>"
+                                + "<td><img onclick = 'results(\"" + data[i]["id"] + "\"); modal_window_controller(\"infoTask_window\", 1, \"" + data[i]["id"] + "\")' title = ' Результаты оценки' src = 'design/showed.svg'></td>"
                                 + "</tr>"
                             );
 						}
-						else if (getUser()["role"] == 1) {
-						    $('#tasksListTable>tbody').append(
-                                "<tr><td>" + id + "</td>"
+						else if (getUser()["role"] == 1 || getUser()["role"] == 3) {
+
+						   $('#tasksListTable > tbody').append(
+                                "<tr>"
                                 + "<td id='row1_"+ data[i]["id"]+"'>" + data[i]["id"] + "</td>"
                                 + "<td id='row2_"+ data[i]["id"]+"'>" + data[i]["description"] + "</td>"
+                                + "<td id='row2_"+ data[i]["id"]+"'>" + get_user_info(data[i]["user_id"])["fio"] + "</td>"
                                 + "<td id='row3_"+ data[i]["id"]+"'>" + get_field_info(data[i]["id"])["location"] + "</td>"
-                                + "<td id='row4_"+ data[i]["id"]+"'>" + get_assesment_info(data[i]["id"], get_field_info(data[i]["id"])["id"]) + "</td>"
-                                + "<td><img onclick = 'assesment(\"" + data[i]["id"] + "\", \"" + get_field_info(data[i]["id"])["id"] + "\"); modal_window_controller(\"assesField_window\", 1, \"" + data[i]["id"] + "\")' title = ' Оценивание' src = 'design/services.svg'></td>"
+                                + "<td id='row4_"+ data[i]["id"]+"'></td>"
+                               + "<td><img onclick = 'assesment(\"" + data[i]["id"] + "\", \"" + data[i]["field_id"] + "\"); modal_window_controller(\"infoTask_window\", 1, \"" + data[i]["id"] + "\")' title = ' Оценивание' src = 'design/services.svg'></td>"
+                                + "<td><img onclick = 'results(\"" + data[i]["id"] + "\"); modal_window_controller(\"infoTask_window\", 1, \"" + data[i]["id"] + "\")' title = ' Результаты оценки' src = 'design/showed.svg'></td>"
                                 + "</tr>"
                             );
 						}
@@ -499,30 +533,104 @@ function get_field_info(id) {
 	return f;
 }
 
-function get_assesment_info(task_id, field_id) {
-    var f = "<text style = 'color: red; font-weight: 700'>Не оценено</text>";
+function get_user_info(id) {
+    var f = null;
 	$.ajax({
 		'async': false,
-		url: 'http://' + pathToBackend + '/assessments/',
+		url: 'http://' + pathToBackend + '/users/' + id,
 		method: 'GET',
 		headers: {
 		Authorization : "Bearer " + sessionStorage.getItem("token"),
 		accept : "application/json"
 		},
-		success:  function(data) {
-            if (data != undefined) {
-                $('#tasksListTable>tbody').empty();
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i]["field_id"] == field_id && data[i]["type"] == task_id) {
-                        f = "<text style = '; font-weight: 700; color: green'>Оценено (ID-оценки: " + data[i]["type"]+ ")</text>";
-                    }
-                }
-            }
+		success: function(data){
+			f = data;
 		}
 	});
 	return f;
 }
 
-function assesment() {
+var dt = new DataTransfer();
 
+$('.input-file input[type=file]').on('change', function(){
+	let $files_list = $(this).closest('.input-file').next();
+	$files_list.empty();
+
+	for(var i = 0; i < this.files.length; i++){
+		let file = this.files.item(i);
+		dt.items.add(file);
+
+		let reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onloadend = function(){
+			let new_file_input = '<div class="input-file-list-item">' +
+				'<img class="input-file-list-img" src="' + reader.result + '">' +
+				'<span class="input-file-list-name">' + file.name + '</span>' +
+				'<a href="#" onclick="removeFilesItem(this); return false;" class="input-file-list-remove">x</a>' +
+			'</div>';
+			$files_list.append(new_file_input);
+		}
+	};
+	this.files = dt.files;
+});
+
+function removeFilesItem(target){
+	let name = $(target).prev().text();
+	let input = $(target).closest('.input-file-row').find('input[type=file]');
+	$(target).closest('.input-file-list-item').remove();
+	for(let i = 0; i < dt.items.length; i++){
+		if(name === dt.items[i].getAsFile().name){
+			dt.items.remove(i);
+		}
+	}
+	input[0].files = dt.files;
 }
+
+function delete_task() {
+    $.ajax({
+        url: 'http://' + pathToBackend + '/tasks/' + Number($("#infoTask_window input[name=id]").val()),
+        method: 'DELETE',
+        dataType: 'json',
+        contentType: "application/json",
+        headers: {
+            Authorization : "Bearer " + sessionStorage.getItem("token")
+        },
+        success: function(data){
+            window.location.reload();
+        },
+        error: function(data) {
+            errorPushWindow(data);
+        }
+    });
+}
+
+
+function assesment(task_id, field_id) {
+    var now = new Date();
+    var dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    $("#asses_field").val(field_id);
+    $("#asses_date").val(dateStr);
+    $("#asses_type").val(task_id);
+}
+
+$('#asses_task_form').on('submit', function(e) {
+	e.preventDefault();
+	$.ajax({
+			url: 'http://' + pathToBackend + '/assessments/',
+			method: 'POST',
+			data: new FormData(this),
+			headers: {
+                Authorization : "Bearer " + sessionStorage.getItem("token")
+            },
+			success: function(data){
+				window.location.reload();
+			},
+			error: function(data) {
+				errorPushWindow(data);
+			},
+            cache: false,
+            contentType: false,
+            processData: false
+		});
+	return false;
+});

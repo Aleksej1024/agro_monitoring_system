@@ -38,7 +38,7 @@
 					<th>Ответственный агроном</th>
 					<th>Расположение поля</th>
 					<th>Статус задачи</th>
-					<th>Действия</th>
+					<th colspan = "2">Действия</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -103,48 +103,27 @@
 
 
 	<!--Карта задачи-->
-	<div class = 'modal_window_lk' style = "width: 1100px; height: 700px" id = "infoTask_window">
-		<h3 id = "task_name">Карточка поля</h3>
-		<form id = 'edit_field_form'>
-			<div>Расположение поля</div>
-			<input name = "location" required placeholder="">
-			<div>Площадь по документам (в гектарах)</div>
-			<input name = "area" required type="number" min="1">
-			<input name = "status" value = "1" class = "hidden_form_field">
+	<div class = 'modal_window_lk' style = "width: 700px; height: 400px" id = "infoTask_window">
+		<h3 id = "task_name">Карточка задачи</h3>
+		<form id = 'asses_task_form'>
+			<div class = "modal_buttons_panel">
+				<button class = "modal_button" data-type = "read" onclick = "$('#asses_task_form').submit()">Выполнить оценку</button>
+				<button class = "modal_button" data-type = "cancel" onclick = "delete_task()">Удалить задачу</button>
+				<button class = "modal_button" data-type = "update" onclick = "window.location.reload()">Закрыть карточку</button>
+			</div>
+
+			<div style = "margin: 20px 0;">Оценивание системой</div>
+			<div class="input-file-row">
+				<label class="input-file">
+					<input type="file" id = "asses_img" name="file" multiple accept="image/*">
+					<input id = "asses_field" name = "field_id" class = "hidden_form_field">
+					<input id = "asses_date" name = "date" class = "hidden_form_field">
+					<input id = "asses_type" name = "type" class = "hidden_form_field">
+					<span>Выберите файл</span>
+				</label>
+				<div class="input-file-list"></div>
+			</div>
 		</form>
-
-
-		<div>История посадок</div>
-		<div class = "table_in_div_head">
-			<table>
-				<thead>
-					<tr>
-						<th>Год</th>
-						<th>Сорт</th>
-						<th>Дата начала <br> засева </th>
-						<th>Дата начала <br> уборки</th>
-						<th>Засеяно, <br>га</th>
-						<th>Собрано, <br>га</th>
-					</tr>
-				</thead>
-			</table>
-		</div>
-
-		<div class = "table_in_div_body">
-			<table id = "history_table">
-				<form id = 'seazon_field_form'>
-					<tbody id = "historyListTable">
-					</tbody>
-				</form>
-			</table>
-		</div>
-
-		<div class = "modal_buttons_panel">
-			<button class = "modal_button" data-type = "update" onclick = "$('#edit_field_form').submit()">Обновить данные</button>
-			<button class = "modal_button" data-type = "cancel" onclick = "delete_field()">Удалить поле</button>
-			<button class = "modal_button" data-type = "read" onclick = "add_seazon(this)">Добавить сезон</button>
-			<button class = "modal_button" data-type = "confirm" onclick = "window.location.reload()">Закрыть карточку</button>
-		</div>
 		<input name = "id" class = "hidden_form_field">
 	</div>
 
