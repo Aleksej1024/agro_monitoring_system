@@ -480,33 +480,44 @@ function getTasksTable() {
 				if (data != undefined) {
 					$('#tasksListTable>tbody').empty();
 					for (var i = 0; i < data.length; i++) {
-						var id = data[i]["id"];
 						get_assesment_info(data[i]["id"], data[i]["field_id"]);
-
+                        console.log(data[i]["id"]);
 						if (getUser()["role"] == 2 && data[i]["user_id"] == getUser()["id"]) {
                             $('#tasksListTable > tbody').append(
                                 "<tr>"
                                 + "<td id='row1_"+ data[i]["id"]+"'>" + data[i]["id"] + "</td>"
                                 + "<td id='row2_"+ data[i]["id"]+"'>" + data[i]["description"] + "</td>"
-                                + "<td id='row2_"+ data[i]["id"]+"'>" + get_user_info(data[i]["user_id"])["fio"] + "</td>"
-                                + "<td id='row3_"+ data[i]["id"]+"'>" + get_field_info(data[i]["id"])["location"] + "</td>"
+                                + "<td id='row2_"+ data[i]["id"]+"'>" + getUser()["fio"] + "</td>"
+                                + "<td id='row3_"+ data[i]["id"]+"'>" + get_field_info(data[i]["field_id"])["location"] + "</td>"
                                 + "<td id='row4_"+ data[i]["id"]+"'></td>"
-                               + "<td><img onclick = 'assesment(\"" + data[i]["id"] + "\", \"" + data[i]["field_id"] + "\"); modal_window_controller(\"infoTask_window\", 1, \"" + data[i]["id"] + "\")' title = ' Оценивание' src = 'design/services.svg'></td>"
-                                + "<td><img onclick = 'results(\"" + data[i]["id"] + "\"); modal_window_controller(\"infoTask_window\", 1, \"" + data[i]["id"] + "\")' title = ' Результаты оценки' src = 'design/showed.svg'></td>"
+                                + "<td><img onclick = 'assesment(\"" + data[i]["id"] + "\", \"" + data[i]["field_id"] + "\"); modal_window_controller(\"infoTask_window\", 1, \"" + data[i]["id"] + "\")' title = ' Оценивание' src = 'design/services.svg'></td>"
+                                + "<td><img onclick = 'results(\"" + data[i]["id"] + "\"); modal_window_controller(\"infoResult_window\", 1, \"" + data[i]["id"] + "\")' title = ' Результаты оценки' src = 'design/showed.svg'></td>"
                                 + "</tr>"
                             );
 						}
-						else if (getUser()["role"] == 1 || getUser()["role"] == 3) {
+						else if (getUser()["role"] == 1) {
 
-						   $('#tasksListTable > tbody').append(
-                                "<tr>"
+						   $('#tasksListTable > tbody').append("<tr>"
                                 + "<td id='row1_"+ data[i]["id"]+"'>" + data[i]["id"] + "</td>"
                                 + "<td id='row2_"+ data[i]["id"]+"'>" + data[i]["description"] + "</td>"
                                 + "<td id='row2_"+ data[i]["id"]+"'>" + get_user_info(data[i]["user_id"])["fio"] + "</td>"
-                                + "<td id='row3_"+ data[i]["id"]+"'>" + get_field_info(data[i]["id"])["location"] + "</td>"
+                                + "<td id='row3_"+ data[i]["id"]+"'>" + get_field_info(data[i]["field_id"])["location"] + "</td>"
                                 + "<td id='row4_"+ data[i]["id"]+"'></td>"
                                + "<td><img onclick = 'assesment(\"" + data[i]["id"] + "\", \"" + data[i]["field_id"] + "\"); modal_window_controller(\"infoTask_window\", 1, \"" + data[i]["id"] + "\")' title = ' Оценивание' src = 'design/services.svg'></td>"
-                                + "<td><img onclick = 'results(\"" + data[i]["id"] + "\"); modal_window_controller(\"infoTask_window\", 1, \"" + data[i]["id"] + "\")' title = ' Результаты оценки' src = 'design/showed.svg'></td>"
+                                + "<td><img onclick = 'results(\"" + data[i]["id"] + "\"); modal_window_controller(\"infoResult_window\", 1, \"" + data[i]["id"] + "\")' title = ' Результаты оценки' src = 'design/showed.svg'></td>"
+                                + "</tr>"
+                            );
+						}
+						else if (getUser()["role"] == 3) {
+
+						   $('#tasksListTable > tbody').append("<tr>"
+                                + "<td id='row1_"+ data[i]["id"]+"'>" + data[i]["id"] + "</td>"
+                                + "<td id='row2_"+ data[i]["id"]+"'>" + data[i]["description"] + "</td>"
+                                + "<td id='row2_"+ data[i]["id"]+"'> Скрыто </td>"
+                                + "<td id='row3_"+ data[i]["id"]+"'>" + get_field_info(data[i]["field_id"])["location"] + "</td>"
+                                + "<td id='row4_"+ data[i]["id"]+"'></td>"
+                               + "<td><img onclick = 'assesment(\"" + data[i]["id"] + "\", \"" + data[i]["field_id"] + "\"); modal_window_controller(\"infoTask_window\", 1, \"" + data[i]["id"] + "\")' title = ' Оценивание' src = 'design/services.svg'></td>"
+                                + "<td><img onclick = 'results(\"" + data[i]["id"] + "\"); modal_window_controller(\"infoResult_window\", 1, \"" + data[i]["id"] + "\")' title = ' Результаты оценки' src = 'design/showed.svg'></td>"
                                 + "</tr>"
                             );
 						}
@@ -523,8 +534,8 @@ function get_field_info(id) {
 		url: 'http://' + pathToBackend + '/fields/' + id,
 		method: 'GET',
 		headers: {
-		Authorization : "Bearer " + sessionStorage.getItem("token"),
-		accept : "application/json"
+		    Authorization : "Bearer " + sessionStorage.getItem("token"),
+		    accept : "application/json"
 		},
 		success: function(data){
 			f = data;
@@ -634,3 +645,32 @@ $('#asses_task_form').on('submit', function(e) {
 		});
 	return false;
 });
+
+function results(task_id) {
+    $.ajax({
+		url: 'http://' + pathToBackend + '/assessments/',
+		method: 'GET',
+		headers: {
+		Authorization : "Bearer " + sessionStorage.getItem("token"),
+		accept : "application/json"
+		},
+		success:  function(data) {
+            if (data != undefined) {
+                $('#assessmentsListTable').empty();
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i]["type"] == task_id) {
+                       $('#assessmentsListTable').append(
+                                "<tr>"
+                                + "<td>" + data[i]["id"] + "</td>"
+                                + "<td>" + data[i]["result"] + "</td>"
+                                + "<td>" + data[i]["date"] + "</td>"
+                                + "<td><a target=\"_blank\" href=\"http:\/\/" + pathToBackend + "/image/" + data[i]["id"] + ".png\">Просмотр фото</a></td>"
+                                + "</tr>"
+                            );
+                    }
+
+                }
+            }
+		}
+	});
+}

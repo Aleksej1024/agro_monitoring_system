@@ -105,17 +105,18 @@
 	<!--Карта задачи-->
 	<div class = 'modal_window_lk' style = "width: 700px; height: 400px" id = "infoTask_window">
 		<h3 id = "task_name">Карточка задачи</h3>
-		<form id = 'asses_task_form'>
+
 			<div class = "modal_buttons_panel">
 				<button class = "modal_button" data-type = "read" onclick = "$('#asses_task_form').submit()">Выполнить оценку</button>
 				<button class = "modal_button" data-type = "cancel" onclick = "delete_task()">Удалить задачу</button>
 				<button class = "modal_button" data-type = "update" onclick = "window.location.reload()">Закрыть карточку</button>
 			</div>
 
+		<form id = 'asses_task_form'>
 			<div style = "margin: 20px 0;">Оценивание системой</div>
 			<div class="input-file-row">
 				<label class="input-file">
-					<input type="file" id = "asses_img" name="file" multiple accept="image/*">
+					<input type="file" id = "asses_img" name="file" multiple accept="image/png">
 					<input id = "asses_field" name = "field_id" class = "hidden_form_field">
 					<input id = "asses_date" name = "date" class = "hidden_form_field">
 					<input id = "asses_type" name = "type" class = "hidden_form_field">
@@ -127,6 +128,33 @@
 		<input name = "id" class = "hidden_form_field">
 	</div>
 
+
+	<!--Список оценок-->
+	<div class = 'modal_window_lk' style = "width: 700px; height: 500px" id = "infoResult_window">
+		<h3>Результаты оценивания</h3>
+		<div class = "table_in_div_head">
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Результат</th>
+						<th>Дата</th>
+						<th>Изображение</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+
+		<div class = "table_in_div_body" style = "height: 300px">
+			<table>
+				<tbody id = "assessmentsListTable">
+				</tbody>
+			</table>
+		</div>
+		<div class = "modal_buttons_panel">
+			<button class = "modal_button" data-type = "read" onclick = "window.location.reload()">Закрыть окно</button>
+		</div>
+	</div>
 	<script src = 'app.js'></script>
 	<script>
 		if (getUser()["role"] > 1) {
